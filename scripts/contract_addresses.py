@@ -24,7 +24,7 @@ CONTRACTS = {
         "genesis_staking":"0xa202D5B0892f2981bA86C981884cebA49B8AE096",
         "parent_staking":"0xED8EB415a237167CA0199d47e575a56D5460DEb1",
         "lp_staking":"0xA0d1345244C89b5574ba50bd6530d4EBd237e826",
-        "rewards_contract":"0xCc3B2ddbcC6fd97a73a9BB288a4CeD8548d56E93",
+        "rewards_contract":"0xc0DF2B83725296d23C0C409C0759F3955b9fCC3A"
     },
     "rinkeby": {
         "access_control":"0xE97FB4E889f662CB5EeAbde404831B931208D110",
@@ -54,7 +54,7 @@ CONTRACTS = {
     }, 
     "goerli": {
         "access_control":"0x947bC90254F66B304728e6C0a4B594390b11DEB1",
-        "fund_multisig":"",
+        "fund_multisig":"0x097838ACe90874EC491Bf8A6c72Ce4793987158d",
         "mona_token":"0x2f5B22A108Caeb3cBc3e34b50757C5EB14d05619",
         "weth":"0x31aC5b4beaceADbcaa68C9E74B49cD8d770a8C88",
         "lp_token":"0xA935ADfE2857245141b61D430fdcCdd5300155D2",
@@ -63,7 +63,7 @@ CONTRACTS = {
         "genesis_staking":"0x8e9a059d94e0CCB48DcEBfd1969BD92B2972f663",
         "parent_staking":"0xe343B4FD1Cf9C32264477395d714042256045F36",
         "lp_staking":"0x907a755Ab4faf43Ea83b721595666643292B228d",
-        "rewards_contract":"0x097838ACe90874EC491Bf8A6c72Ce4793987158d",
+        "rewards_contract":"0x23342Eed3bB8Bb9602C048881104e8222e48BE97",
         "child_nft":"0x8509E9011DA1229AABA88aFBe193781B29F55325"
     }
 }

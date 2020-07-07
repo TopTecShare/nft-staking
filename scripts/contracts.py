@@ -154,7 +154,7 @@ def get_lp_staking():
     return lp_staking
 
 
-def deploy_rewards(rewards_token,genesis_staking,parent_staking,lp_staking, access_control, start_time):
+def deploy_rewards(rewards_token,genesis_staking,parent_staking,lp_staking, access_control, start_time,last_time, g_paid, p_paid, lp_paid):
     rewards_address = CONTRACTS[network.show_active()]["rewards_contract"]
     if rewards_address == "":
         rewards = DigitalaxRewards.deploy(rewards_token,
@@ -162,9 +162,30 @@ def deploy_rewards(rewards_token,genesis_staking,parent_staking,lp_staking, acce
                                         genesis_staking,
                                         parent_staking,
                                         lp_staking,
-                                        start_time,{'from': accounts[0]})
+                                        start_time,
+                                        last_time,
+                                        g_paid,
+                                        p_paid,
+                                        lp_paid,
+                                        {'from': accounts[0]})
     else:
         rewards = DigitalaxRewards.at(rewards_address)
+    return rewards
+
+
+def deploy_new_rewards(rewards_token,genesis_staking,parent_staking,lp_staking, access_control, start_time,last_time, g_paid, p_paid, lp_paid):
+    rewards_address = CONTRACTS[network.show_active()]["rewards_contract"]
+    rewards = DigitalaxRewards.deploy(rewards_token,
+                                        access_control,
+                                        genesis_staking,
+                                        parent_staking,
+                                        lp_staking,
+                                        start_time,
+                                        last_time,
+                                        g_paid,
+                                        p_paid,
+                                        lp_paid,
+                                        {'from': accounts[0]})
     return rewards
 
 

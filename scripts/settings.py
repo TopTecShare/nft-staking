@@ -17,7 +17,7 @@ GENESIS_TOKEN_URI = 'https://gateway.pinata.cloud/ipfs/QmRjiYPGEm3GkWYW6Mpp3ZGHv
 # MONA Token
 ###########################
 
-MONA_NAME = "Monavale"
+MONA_NAME = "Digitalax"
 MONA_SYMBOL = "MONA"
 MONA_TOKEN_CAP = 10000 * TENPOW18
 MONA_TREASURY_SUPPLY = 1000 * TENPOW18
@@ -27,7 +27,7 @@ MONA_UNISWAP_SUPPLY = 200 * TENPOW18
 # Rewards
 ###########################
 
-REWARDS_START_TIME = 1606867199
+REWARDS_START_TIME = 1606932000
 
 ###########################
 # Digitalax Materials

@@ -32,7 +32,7 @@ contract DigitalaxNFTStaking {
     uint256 public rewardsPerTokenPoints;
     uint256 public totalUnclaimedRewards;
 
-    uint256 constant pointMultiplier = 10e32;
+    uint256 constant pointMultiplier = 10e18;
 
     /**
     @notice Struct to track what user is staking which tokens

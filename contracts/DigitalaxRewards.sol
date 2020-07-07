@@ -6,7 +6,6 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 import "./DigitalaxAccessControls.sol";
 import "./DigitalaxGenesisNFT.sol";
 import "../interfaces/IERC20.sol";
-import "./Utils/ABDKMathQuad.sol";
 import "../interfaces/IERC20.sol";
 import "../interfaces/IUniswapV2Pair.sol";
 import "./Utils/UniswapV2Library.sol";
@@ -29,7 +28,6 @@ interface MONA is IERC20 {
 
 contract DigitalaxRewards {
     using SafeMath for uint256;
-    using ABDKMathQuad for bytes16;
 
     /* ========== Variables ========== */
 
@@ -39,7 +37,7 @@ contract DigitalaxRewards {
     DigialaxStaking public parentStaking;
     DigialaxStaking public lpStaking;
 
-    uint256 constant pointMultiplier = 10e32;
+    uint256 constant pointMultiplier = 10e18;
     uint256 constant SECONDS_PER_DAY = 24 * 60 * 60;
     uint256 constant SECONDS_PER_WEEK = 7 * 24 * 60 * 60;
     
@@ -79,7 +77,12 @@ contract DigitalaxRewards {
         DigialaxStaking _genesisStaking,
         DigialaxStaking _parentStaking,
         DigialaxStaking _lpStaking,
-        uint256 _startTime
+        uint256 _startTime,
+        uint256 _lastRewardTime,
+        uint256 _genesisRewardsPaid,
+        uint256 _parentRewardsPaid,
+        uint256 _lpRewardsPaid
+
     )
         public
     {
@@ -89,12 +92,16 @@ contract DigitalaxRewards {
         parentStaking = _parentStaking;
         lpStaking = _lpStaking;
         startTime = _startTime;
-        lastRewardTime = _startTime;
+        lastRewardTime = _lastRewardTime;
+        genesisRewardsPaid = _genesisRewardsPaid;
+        parentRewardsPaid = _parentRewardsPaid;
+        lpRewardsPaid = _lpRewardsPaid;        
     }
 
     /// @dev Setter functions for contract config
     function setStartTime(
-        uint256 _startTime
+        uint256 _startTime,
+        uint256 _lastRewardTime
     )
         external
     {
@@ -103,6 +110,28 @@ contract DigitalaxRewards {
             "DigitalaxRewards.setStartTime: Sender must be admin"
         );
         startTime = _startTime;
+        lastRewardTime = _lastRewardTime;
+    }
+
+    /// @dev Setter functions for contract config
+    function setInitialPoints(
+        uint256 week,
+        uint256 gW,
+        uint256 pW,
+        uint256 mW
+
+    )
+        external
+    {
+        require(
+            accessControls.hasAdminRole(msg.sender),
+            "DigitalaxRewards.setStartTime: Sender must be admin"
+        );
+        Weights storage weights = weeklyWeightPoints[week];
+        weights.genesisWtPoints = gW;
+        weights.parentWtPoints = pW;
+        weights.lpWeightPoints = mW;
+
     }
 
     function setGenesisStaking(
@@ -522,7 +551,7 @@ contract DigitalaxRewards {
     }
 
 
-    // /// @notice Normalised weightings  
+    /// @notice Normalised weightings  
     function _getSqrtWeight(
         uint256 _a,
         uint256 _b,
@@ -537,15 +566,29 @@ contract DigitalaxRewards {
         if ( _a <= _b.add(_c) ||  _b.add(_c) == 0  ) {
             return 1e18;
         }
+        /// @dev Normalised for each weighting
         uint256 A1 = max(_a.mul(1e18).div(max(_b,1e18)),1e18);
         uint256 A2 = max(_a.mul(1e18).div(max(_c,1e18)),1e18);
         uint256 A = A1.mul(A2).div(1e18);
 
-        bytes16 ten18 = ABDKMathQuad.fromUInt(10**18); 
-        wA = ABDKMathQuad.toUInt(ABDKMathQuad.sqrt(ABDKMathQuad.fromUInt(uint256(1e18).mul(1e18).div(A)))).mul(1e18); 
+        /// @dev sqrt needs to refactored by 1/2 decimals, ie 1e9
+        wA = _sqrt(uint256(1e18).mul(1e18).div(A)).mul(1e9);
         
     }
 
+    /// @dev babylonian method (https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Babylonian_method)
+    function _sqrt(uint y) internal pure returns (uint z) {
+        if (y > 3) {
+            z = y;
+            uint x = y / 2 + 1;
+            while (x < z) {
+                z = x;
+                x = (y / x + x) / 2;
+            }
+        } else if (y != 0) {
+            z = 1;
+        }
+    }
 
     /* ========== Recover ERC20 ========== */
 
@@ -642,7 +685,7 @@ contract DigitalaxRewards {
         }
         uint256 rewards = genesisRewards(block.timestamp,block.timestamp + SECONDS_PER_DAY);
         uint256 rewardsInEth = rewards.mul(getEthPerMona()).div(1e18);
-        return rewardsInEth.mul(1e18).div(stakedEth);
+        return rewardsInEth.mul(36500).mul(1e18).div(stakedEth);
     } 
 
     function getParentDailyAPY()
@@ -656,7 +699,7 @@ contract DigitalaxRewards {
         }
         uint256 rewards = parentRewards(block.timestamp,block.timestamp + SECONDS_PER_DAY);
         uint256 rewardsInEth = rewards.mul(getEthPerMona()).div(1e18);
-        return rewardsInEth.mul(1e18).div(stakedEth);
+        return rewardsInEth.mul(36500).mul(1e18).div(stakedEth);
     } 
 
     function getLpDailyAPY()
@@ -670,7 +713,7 @@ contract DigitalaxRewards {
         }
         uint256 rewards = LPRewards(block.timestamp,block.timestamp + SECONDS_PER_DAY);
         uint256 rewardsInEth = rewards.mul(getEthPerMona()).div(1e18);
-        return rewardsInEth.mul(1e18).div(stakedEth);
+        return rewardsInEth.mul(36500).mul(1e18).div(stakedEth);
     } 
 
     function getMonaPerEth()

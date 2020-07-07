@@ -50,6 +50,7 @@ def main():
     # Rewards Contract
     rewards = deploy_rewards(mona_token,genesis_staking,parent_staking,lp_staking,access_control,start_time)
     if rewards.weeklyRewardsPerSecond(0) == 0:
+        set_bonus(genesis_staking, rewards)
         rewards = set_rewards(rewards)
         print("rewards per second for week[0] =",rewards.weeklyRewardsPerSecond(0)* 7*24*60*60 /TENPOW18)
         print("rewards per second for week[8]=",rewards.weeklyRewardsPerSecond(8)* 7*24*60*60/TENPOW18)
