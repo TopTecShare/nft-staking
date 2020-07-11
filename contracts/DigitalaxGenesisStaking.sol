@@ -275,6 +275,7 @@ contract DigitalaxGenesisStaking {
         uint256 lastIndex = staker.tokenIds.length - 1;
         uint256 lastIndexKey = staker.tokenIds[lastIndex];
         staker.tokenIds[staker.tokenIndex[_tokenId]] = lastIndexKey;
+        staker.tokenIndex[lastIndexKey] = staker.tokenIndex[_tokenId];
         if (staker.tokenIds.length > 0) {
             staker.tokenIds.pop();
             delete staker.tokenIndex[_tokenId];

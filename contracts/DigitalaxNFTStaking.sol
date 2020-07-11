@@ -265,7 +265,10 @@ contract DigitalaxNFTStaking {
 
         uint256 lastIndex = staker.tokenIds.length - 1;
         uint256 lastIndexKey = staker.tokenIds[lastIndex];
-        staker.tokenIds[staker.tokenIndex[_tokenId]] = lastIndexKey;
+        uint256 tokenIdIndex = staker.tokenIndex[_tokenId];
+        
+        staker.tokenIds[tokenIdIndex] = lastIndexKey;
+        staker.tokenIndex[lastIndexKey] = tokenIdIndex;
         if (staker.tokenIds.length > 0) {
             staker.tokenIds.pop();
             delete staker.tokenIndex[_tokenId];
