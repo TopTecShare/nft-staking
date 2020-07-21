@@ -239,7 +239,7 @@ contract DigitalaxNFTStaking {
     {
         claimReward(msg.sender);
         for (uint i = 0; i < tokenIds.length; i++) {
-            if (tokenOwner[i] == msg.sender) {
+            if (tokenOwner[tokenIds[i]] == msg.sender) {
                 _unstake(msg.sender, tokenIds[i]);
             }
         }

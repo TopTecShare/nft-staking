@@ -539,9 +539,9 @@ contract DigitalaxRewards {
         view
         returns(uint256,uint256,uint256)
     {
-        uint256 eg = _g.mul(_getSqrtWeight(_g,_p,_m).div(1e18));
-        uint256 ep = _p.mul(_getSqrtWeight(_p,_m,_g).div(1e18));
-        uint256 em = _m.mul(_getSqrtWeight(_m,_g,_p).div(1e18));
+        uint256 eg = _g.mul(_getSqrtWeight(_g,_p,_m));
+        uint256 ep = _p.mul(_getSqrtWeight(_p,_m,_g));
+        uint256 em = _m.mul(_getSqrtWeight(_m,_g,_p));
 
         uint256 norm = eg.add(ep).add(em);
 
@@ -683,9 +683,9 @@ contract DigitalaxRewards {
         if ( stakedEth == 0 ) {
             return 0;
         }
-        uint256 rewards = genesisRewards(block.timestamp,block.timestamp + SECONDS_PER_DAY);
+        uint256 rewards = genesisRewards(block.timestamp - 60, block.timestamp);
         uint256 rewardsInEth = rewards.mul(getEthPerMona()).div(1e18);
-        return rewardsInEth.mul(36500).mul(1e18).div(stakedEth);
+        return rewardsInEth.mul(52560000).mul(1e18).div(stakedEth);
     } 
 
     function getParentDailyAPY()
@@ -697,9 +697,9 @@ contract DigitalaxRewards {
         if ( stakedEth == 0 ) {
             return 0;
         }
-        uint256 rewards = parentRewards(block.timestamp,block.timestamp + SECONDS_PER_DAY);
+        uint256 rewards = parentRewards(block.timestamp - 60, block.timestamp);
         uint256 rewardsInEth = rewards.mul(getEthPerMona()).div(1e18);
-        return rewardsInEth.mul(36500).mul(1e18).div(stakedEth);
+        return rewardsInEth.mul(52560000).mul(1e18).div(stakedEth);
     } 
 
     function getLpDailyAPY()
@@ -711,9 +711,10 @@ contract DigitalaxRewards {
         if ( stakedEth == 0 ) {
             return 0;
         }
-        uint256 rewards = LPRewards(block.timestamp,block.timestamp + SECONDS_PER_DAY);
+        uint256 rewards = LPRewards(block.timestamp - 60, block.timestamp);
         uint256 rewardsInEth = rewards.mul(getEthPerMona()).div(1e18);
-        return rewardsInEth.mul(36500).mul(1e18).div(stakedEth);
+        /// @dev minutes per year x 100 = 52560000
+        return rewardsInEth.mul(52560000).mul(1e18).div(stakedEth);
     } 
 
     function getMonaPerEth()

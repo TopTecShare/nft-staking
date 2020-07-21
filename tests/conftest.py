@@ -193,6 +193,7 @@ def staking_rewards_mock(DigitalaxRewards,MockStaking, mona_token, access_contro
                 staking_nft_mock,
                 staking_lp_mock,
                 start_time,
+                start_time,0,0,0,
                 {'from':accounts[0]}
     )
     access_controls.addMinterRole(staking_rewards_mock)
@@ -222,6 +223,7 @@ def staking_rewards(DigitalaxRewards,mona_token,access_controls,staked_nft,staki
                 staking_nft,
                 staking_lp_mock,
                 start_time,
+                start_time,0,0,0,
                 {'from':accounts[0]}
     )
     access_controls.addMinterRole(staking_rewards)

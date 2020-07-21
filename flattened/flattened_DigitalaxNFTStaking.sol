@@ -2315,7 +2315,7 @@ contract DigitalaxNFTStaking {
     uint256 public rewardsPerTokenPoints;
     uint256 public totalUnclaimedRewards;
 
-    uint256 constant pointMultiplier = 10e32;
+    uint256 constant pointMultiplier = 10e18;
 
     /**
     @notice Struct to track what user is staking which tokens
@@ -2548,7 +2548,10 @@ contract DigitalaxNFTStaking {
 
         uint256 lastIndex = staker.tokenIds.length - 1;
         uint256 lastIndexKey = staker.tokenIds[lastIndex];
+        uint256 tokenIdIndex = staker.tokenIndex[_tokenId];
+        
         staker.tokenIds[staker.tokenIndex[_tokenId]] = lastIndexKey;
+        staker.tokenIndex[lastIndexKey] = tokenIdIndex;
         if (staker.tokenIds.length > 0) {
             staker.tokenIds.pop();
             delete staker.tokenIndex[_tokenId];

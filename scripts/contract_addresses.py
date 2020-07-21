@@ -22,9 +22,9 @@ CONTRACTS = {
         "genesis_nft":"0x89505d2a27b7e8AC56252081d721ECd525E4241e",
         "parent_nft":"0x0b509f4b044f713a91bb50535914f7ad160532fe",
         "genesis_staking":"0xa202D5B0892f2981bA86C981884cebA49B8AE096",
-        "parent_staking":"0xED8EB415a237167CA0199d47e575a56D5460DEb1",
+        "parent_staking":"0xc802912c379a1ef995a23c07346bd8373049fa39",
         "lp_staking":"0xA0d1345244C89b5574ba50bd6530d4EBd237e826",
-        "rewards_contract":"0xc0DF2B83725296d23C0C409C0759F3955b9fCC3A"
+        "rewards_contract":"0xC155DDd8aA737aA53bBCea9EA62CAC0A3EEc942f"
     },
     "rinkeby": {
         "access_control":"0xE97FB4E889f662CB5EeAbde404831B931208D110",
