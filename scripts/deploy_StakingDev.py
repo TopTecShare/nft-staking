@@ -6,6 +6,8 @@ import time
 
 from .deploy_setRewards import *
 from .deploy_setContributions import *
+from .deploy_setBonus import *
+from .deploy_setRewards import *
 
 def main():
     # Acocunts
@@ -48,7 +50,7 @@ def main():
     parent_staking = deploy_parent_staking(mona_token,parent_nft,access_control)
 
     # Rewards Contract
-    rewards = deploy_rewards(mona_token,genesis_staking,parent_staking,lp_staking,access_control,start_time)
+    rewards = deploy_rewards(mona_token,genesis_staking,parent_staking,lp_staking,access_control,start_time, 0, 0, 0, 0)
     if rewards.weeklyRewardsPerSecond(0) == 0:
         set_bonus(genesis_staking, rewards)
         rewards = set_rewards(rewards)
